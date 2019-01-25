@@ -16,6 +16,7 @@ $('#save').click(function(){
 				objRecord.studentId= Math.floor(Math.random() * 1000);
 
 				tblRecord.push(objRecord);
+				
 		localStorage.stuRecord=JSON.stringify(tblRecord);		
 		createRow();
 			
