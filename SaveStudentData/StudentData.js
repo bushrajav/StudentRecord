@@ -13,7 +13,8 @@ $('#save').click(function(){
 				objRecord.enterName=enterName;
 				objRecord.enterClass=enterClass;
 				objRecord.enterMarks=enterMarks;
-				
+				objRecord.studentId= Math.floor(Math.random() * 1000);
+
 				tblRecord.push(objRecord);
 		localStorage.stuRecord=JSON.stringify(tblRecord);		
 		createRow();
@@ -30,12 +31,13 @@ $('#save').click(function(){
 				enterName=value.enterName;
 				enterClass=value.enterClass;
                 enterMarks=value.enterMarks;
+                studentId=value.studentId;
 			
 			
 				
 				var printData='<tr>'
 					+'<td id=stuIndex>'+(1+index)+'</td>'
-					+'<td id="stuName"><span id=editName>'+enterName+'</span><input type="text" id="editText"/><input type="button" value="save" id="saveData"/></td>'
+					+'<td id="stuName"><span id=editName>'+enterName+'</span><input type="text" id="editText"/><input type="button" value="save" id="saveData" data-student-id="'+ studentId +'"/></td>'
 					+'<td id="second_col">'+enterClass+'</td>'
 					+'<td id="third_col">'+enterMarks+'</td>'+'</tr>';
 					
@@ -65,17 +67,27 @@ $('#save').click(function(){
 			
 		
 		}
-			function saveNewVal(){
+			function saveNewVal(event){
 				//$.each(tblRecord,function(index,value){
 				//console.log(index);
 				//var textboxIndex=$('#stuName').parent().index();
 				//console.log(textboxIndex);
-				
+
 				$(this).hide();
 				var newValue=$(this).parent().find('#editText').val();
 				$(this).parent().find('#editText').hide();
 				$(this).parent().find('#editName').text(newValue);
 				$(this).parent().find('#editName').show();
+
+				var studentId = $(event.target).data('student-id');
+				$.each(tblRecord, function(index, value){
+					if (value.studentId === studentId){
+						value.enterName = newValue;
+						localStorage.stuRecord=JSON.stringify(tblRecord);
+					}
+				});
+				
+
 				//var getIndex=$(this).parent().find('#stuIndex').val();
 			//console.log(getIndex);
 						
